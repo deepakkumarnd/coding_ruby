@@ -15,4 +15,5 @@ end
 desc 'Run all tests'
 task :test do
   ruby 'test/hello_test.rb'
+  ruby 'test/leetcode/twosum_test.rb'
 end
