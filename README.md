@@ -1,5 +1,8 @@
 # Coding exercises in ruby
 
-Coding playground
+## LeetCode problems
 
-I did setup this project based on this [blog post](https://dev.to/deciduously/setting-up-a-fresh-ruby-project-56o4)
+| Problem | Ruby Version | Machine |  Time | Space | LeetCode runtime |
+| --- | --- | --- | --- | --- | --- |
+| [Two Sum](src/leetcode/two_sum.rb) | 4.0.6 | Apple M3 | O(n) | O(n) | 3ms, 212MB |
+
