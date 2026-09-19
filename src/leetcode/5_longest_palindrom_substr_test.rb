@@ -4,6 +4,7 @@ require 'benchmark'
 
 require_relative '5_longest_palindrom_substr_v1'
 require_relative '5_longest_palindrom_substr_v2'
+require_relative '5_longest_palindrom_substr_v3'
 
 $version = nil
 
@@ -12,6 +13,9 @@ def longest_palindrome(s)
     LongestPalindromeV1.longest_palindrome(s)
   elsif $version == 'v2'
     LongestPalindromeV2.longest_palindrome(s)
+  elsif $version == 'v3'
+    LongestPalindromeV3.longest_palindrome(s)
+
   else
     puts 'Error - Set the $version to run the benchmark'
     exit(-1)
@@ -81,6 +85,11 @@ module LongestPalindromTest
         s = 'abacdfgdcaba1234567890abcdefedcba0987654321xyzzyx'
         _(longest_palindrome(s)).must_equal('1234567890abcdefedcba0987654321')
       end
+
+      it 'returns longest palindrom test string for "abb"' do
+        s = 'abb'
+        _(longest_palindrome(s)).must_equal('bb')
+      end
     end
   end
 end
@@ -105,8 +114,15 @@ if ARGV.length >= 1 && ARGV[0] == 'benchmark'
         puts("V2=#{longest_palindrome(s) == ('a' * 998)}")
       end
     end
+
+    x.report 'Version 3' do
+      $version = 'v3'
+      iterations.times do
+        puts("V2=#{longest_palindrome(s) == ('a' * 998)}")
+      end
+    end
   end
 else
-  $version = 'v1'
+  $version = 'v3'
   LongestPalindromTest.run_tests
 end
