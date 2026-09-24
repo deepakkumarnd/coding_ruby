@@ -2,24 +2,24 @@ require 'minitest/autorun'
 require 'minitest/focus'
 require 'benchmark'
 
+require_relative '5_longest_palindrom_substr_v0'
 require_relative '5_longest_palindrom_substr_v1'
 require_relative '5_longest_palindrom_substr_v2'
 require_relative '5_longest_palindrom_substr_v3'
+require_relative '5_longest_palindrom_substr_v4'
 
 $version = nil
 
 def longest_palindrome(s)
-  if $version == 'v1'
-    LongestPalindromeV1.longest_palindrome(s)
-  elsif $version == 'v2'
-    LongestPalindromeV2.longest_palindrome(s)
-  elsif $version == 'v3'
-    LongestPalindromeV3.longest_palindrome(s)
+  target_name = "LongestPalindrome#{$version.upcase}"
 
-  else
-    puts 'Error - Set the $version to run the benchmark'
+  unless Kernel.const_defined? target_name
+    puts "Undefined module #{target_name}"
     exit(-1)
   end
+
+  target = Kernel.const_get(target_name)
+  target.send(:longest_palindrome, s)
 end
 
 module LongestPalindromTest
@@ -94,35 +94,28 @@ module LongestPalindromTest
   end
 end
 
-if ARGV.length >= 1 && ARGV[0] == 'benchmark'
+argument = ARGV.shift
+
+if argument == 'benchmark'
   ARGV.push('--quiet') # run tests silently
   iterations = 1
   s = "#{'a' * 998}bc#{'a' * 996}"
   puts "Long string #{s.length}"
 
   Benchmark.bm(15) do |x|
-    x.report 'Version 1' do
-      $version = 'v1'
-      iterations.times do
-        puts("V1=#{longest_palindrome(s) == ('a' * 998)}")
-      end
-    end
-
-    x.report 'Version 2' do
-      $version = 'v2'
-      iterations.times do
-        puts("V2=#{longest_palindrome(s) == ('a' * 998)}")
-      end
-    end
-
-    x.report 'Version 3' do
-      $version = 'v3'
-      iterations.times do
-        puts("V2=#{longest_palindrome(s) == ('a' * 998)}")
+    %w[v0 v1 v2 v3 v4].each do |version|
+      x.report "Version #{version}" do
+        $version = version
+        iterations.times do
+          # Verify the result is true
+          puts("#{version}=#{longest_palindrome(s) == ('a' * 998)}")
+        end
       end
     end
   end
 else
-  $version = 'v3'
+  $version = argument
+  raise 'Pass version to run as argument' if $version.nil?
+
   LongestPalindromTest.run_tests
 end
