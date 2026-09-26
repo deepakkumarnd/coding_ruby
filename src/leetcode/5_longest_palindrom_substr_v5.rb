@@ -20,7 +20,10 @@ module LongestPalindromeV5
       end
 
       radius = expand(s, pos, rads)
-      right_boundary = pos + radius if pos + radius > right_boundary
+      if pos + radius > right_boundary
+        right_boundary = pos + radius
+        center = pos
+      end
       longest_pos = pos if radius > rads[longest_pos]
     end
 
