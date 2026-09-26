@@ -7,6 +7,7 @@ require_relative '5_longest_palindrom_substr_v1'
 require_relative '5_longest_palindrom_substr_v2'
 require_relative '5_longest_palindrom_substr_v3'
 require_relative '5_longest_palindrom_substr_v4'
+require_relative '5_longest_palindrom_substr_v5'
 
 $version = nil
 
@@ -103,7 +104,7 @@ if argument == 'benchmark'
   puts "Long string #{s.length}"
 
   Benchmark.bm(15) do |x|
-    %w[v0 v1 v2 v3 v4].each do |version|
+    %w[v0 v1 v2 v3 v4 v5].each do |version|
       x.report "Version #{version}" do
         $version = version
         iterations.times do
