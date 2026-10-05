@@ -42,7 +42,10 @@ class Trie
       temp_node = temp_node.child_nodes[index]
     end
 
-    temp_node.value = value || word
+    return if temp_node.value
+
+    temp_node.value = word
+
     @word_count += 1
   end
 
@@ -80,7 +83,7 @@ class Trie
         temp_node = temp_node.child_nodes[index]
       end
 
-    nil unless temp_node.leafnode?
+    return nil unless temp_node.leafnode?
 
     temp_node = nodes_to_delete.pop
 

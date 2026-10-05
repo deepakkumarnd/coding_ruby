@@ -46,6 +46,14 @@ describe Trie do
       expect(trie.nodes_count).to eq(8)
       expect(trie.word_count).to eq(1)
     end
+
+    it 'does not insert a new word to trie twice' do
+      trie = Trie.new
+      trie.insert('welcome')
+      trie.insert('welcome')
+      expect(trie.nodes_count).to eq(8)
+      expect(trie.word_count).to eq(1)
+    end
   end
 
   context '#has?' do
@@ -88,6 +96,19 @@ describe Trie do
         trie.remove('welcome')
       end.to change(trie, :nodes_count).by(-7)
                                        .and change(trie, :word_count).by(-1)
+
+      expect(trie.find('welcome')).to eq nil
+    end
+
+    it 'deleting the deleted word does not change anything' do
+      trie = Trie.new
+      trie.insert('welcome')
+      trie.remove('welcome')
+
+      expect do
+        trie.remove('welcome')
+      end.to change(trie, :nodes_count).by(0)
+                                       .and change(trie, :word_count).by(0)
 
       expect(trie.find('welcome')).to eq nil
     end
