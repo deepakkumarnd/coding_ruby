@@ -8,9 +8,9 @@ def int_to_roman(num)
 
   roman = []
 
-  0.upto(BREAKPOINTS.length - 1).each do |i|
-    div, mod = num.divmod(BREAKPOINTS[i])
-    roman.push(LETTER[i] * div)
+  BREAKPOINTS.each_with_index.each do |bp, i|
+    div, mod = num.divmod(bp)
+    roman.push(LETTER[i] * div) if div.positive?
     num = mod
     break if num.zero?
   end
