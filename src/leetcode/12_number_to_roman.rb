@@ -1,52 +1,20 @@
 require 'minitest/autorun'
 
+BREAKPOINTS = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1].freeze
+LETTER = %w[M CM D CD C XC L XL X IX V IV I].freeze
+
 def int_to_roman(num)
   return nil unless num.between?(0, 3999)
 
   roman = []
 
-  while num.positive?
-    if num >= 1000
-      roman.push('M')
-      num -= 1000
-    elsif num >= 900
-      roman.push('CM')
-      num -= 900
-    elsif num >= 500
-      roman.push('D')
-      num -= 500
-    elsif num >= 400
-      roman.push('CD')
-      num -= 400
-    elsif num >= 100
-      roman.push('C')
-      num -= 100
-    elsif num >= 90
-      roman.push('XC')
-      num -= 90
-    elsif num >= 50
-      roman.push('L')
-      num -= 50
-    elsif num >= 40
-      roman.push('XL')
-      num -= 40
-    elsif num >= 10
-      roman.push('X')
-      num -= 10
-    elsif num == 9
-      roman.push('IX')
-      num -= 9
-    elsif num >= 5
-      roman.push('V')
-      num -= 5
-    elsif num == 4
-      roman.push('IV')
-      num -= 4
-    elsif num >= 1
-      roman.push('I')
-      num -= 1
-    end
+  0.upto(BREAKPOINTS.length - 1).each do |i|
+    div, mod = num.divmod(BREAKPOINTS[i])
+    roman.push(LETTER[i] * div)
+    num = mod
+    break if num.zero?
   end
+
   roman.join
 end
 
