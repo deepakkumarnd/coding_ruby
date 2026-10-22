@@ -81,7 +81,8 @@ def roman_to_int(s)
 end
 
 def roman_to_int_v2(s)
-  nil if s.empty?
+  return nil if s.empty?
+
   i = 0
   number = 0
   len = s.length
