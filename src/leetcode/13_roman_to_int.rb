@@ -137,6 +137,19 @@ def roman_to_int_v2(s)
   number
 end
 
+def roman_to_int_v3(s)
+  values = s.each_char.map { |c| MAPPING[c] }
+  len = values.length
+
+  values.each_with_index.map do |value, i|
+    if i + 1 < len
+      value < values[i + 1] ? -value : value
+    else
+      value
+    end
+  end.sum
+end
+
 describe 'roman to integer' do
   it 'converts III to 3' do
     expect(roman_to_int('III')).must_equal 3
@@ -160,5 +173,17 @@ describe 'roman to integer' do
 
   it 'v2 converts MCMXCIV to 1994' do
     expect(roman_to_int_v2('MCMXCIV')).must_equal 1994
+  end
+
+  it 'v3 converts III to 3' do
+    expect(roman_to_int_v3('III')).must_equal 3
+  end
+
+  it 'v3 converts LVIII to 58' do
+    expect(roman_to_int_v3('LVIII')).must_equal 58
+  end
+
+  it 'v3 converts MCMXCIV to 1994' do
+    expect(roman_to_int_v3('MCMXCIV')).must_equal 1994
   end
 end
