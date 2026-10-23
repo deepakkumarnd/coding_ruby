@@ -38,6 +38,45 @@ def find_median_sorted_arrays(nums1, nums2)
   (m + n).even? ? (nums3[(m + n) / 2 - 1] + nums3[(m + n) / 2]) / 2.0 : nums3[(m + n) / 2.0]
 end
 
+def find_median(nums1, nums2)
+  l = nums1.length + nums2.length
+  mids = []
+
+  median_positions = if l.even?
+                       [l / 2 - 1, l / 2]
+                     else
+                       [l / 2]
+                     end
+
+  i = 0
+  j = 0
+  k = 0
+
+  while k <= median_positions.last
+    if i < nums1.length && j < nums2.length
+      if nums1[i] < nums2[j]
+        el = nums1[i]
+        i += 1
+      else
+        el = nums1[j]
+        j += 1
+      end
+    elsif i < nums1.length
+      el = nums1[i]
+      i += 1
+    elsif j < nums2.length
+      el = nums2[j]
+      j += 1
+    end
+
+    mids.push(el) if median_positions.include? k
+
+    k += 1
+  end
+
+  mids.length > 1 ? mids.sum / 2.0 : mids.first
+end
+
 describe 'Median of two sorted arrays' do
   it 'returns 3 as the median' do
     _(find_median_sorted_arrays([1, 2, 3], [4, 5])).must_equal(3)
@@ -53,5 +92,21 @@ describe 'Median of two sorted arrays' do
 
   it 'returns 2 as the median' do
     _(find_median_sorted_arrays([1, 2, 3], [1, 2])).must_equal(2)
+  end
+  # v2
+  it 'returns 3 as the median' do
+    _(find_median([1, 2, 3], [4, 5])).must_equal(3)
+  end
+
+  it 'returns 3.5 as the median' do
+    _(find_median([1, 2, 3], [4, 5, 6])).must_equal(3.5)
+  end
+
+  it 'returns 2 as the median' do
+    _(find_median([1, 2, 3], [1, 2, 3])).must_equal(2)
+  end
+
+  it 'returns 2 as the median' do
+    _(find_median([1, 2, 3], [1, 2])).must_equal(2)
   end
 end
