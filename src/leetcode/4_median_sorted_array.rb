@@ -39,6 +39,15 @@ def find_median_sorted_arrays(nums1, nums2)
 end
 
 def find_median(nums1, nums2)
+  l1 = nums1.length
+  l2 = nums2.length
+
+  if l1.zero?
+    return l2.even? ? nums2[l2 / 2 - 1, 2].sum / 2.0 : nums2[l2 / 2]
+  elsif l2.zero?
+    return l1.even? ? nums1[l1 / 2 - 1, 2].sum / 2.0 : nums1[l1 / 2]
+  end
+
   l = nums1.length + nums2.length
   mids = []
 
@@ -58,7 +67,7 @@ def find_median(nums1, nums2)
         el = nums1[i]
         i += 1
       else
-        el = nums1[j]
+        el = nums2[j]
         j += 1
       end
     elsif i < nums1.length
@@ -108,5 +117,9 @@ describe 'Median of two sorted arrays' do
 
   it 'returns 2 as the median' do
     _(find_median([1, 2, 3], [1, 2])).must_equal(2)
+  end
+
+  it 'returns 2 as the median' do
+    _(find_median([1, 3], [2])).must_equal(2)
   end
 end
